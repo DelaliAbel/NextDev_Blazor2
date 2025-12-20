@@ -1,4 +1,5 @@
 ﻿@page "/Team"
+@using NextDev_Blazor2.Models
 
 
 
@@ -6,63 +7,76 @@
     <!-- Team Section -->
     <section class="team-section">
         <div class="container">
-            <h2 class="mb-3">Our Team</h2>
-            <p class="mb-5">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.<br> Excepteur sint occaecat cupidatat non proident</p>
+            <h2 class="mb-3">Équipe Wakanda</h2>
+            <p>Innovation – Courage – Unité</p>
+            <p class="mb-5">Nous sommes une équipe unie par la force et l'héritage d'une civilisation légendaire. Inspirée par l'esprit indomptable et l'innovation de Wakanda, nous affrontons chaque défi avec la puissance de notre collectif et la sagesse de nos cultures. Ensemble, nous transformons les obstacles en opportunités, guidés par une vision de succès et d'excellence. Ensemble, nous portons la flamme du changement.</p>
 
             <div class="row justify-content-center g-5">
-                <!-- Member 1 -->
-                <div class="col-md-6 d-flex justify-content-center">
-                    <div class="team-member">
-                        <img src="images/img_1.png">
-                        <div class="team-info">
-                            <NavLink href="team/detail">
-                                <h5>JEFFREY BROWN</h5>
-                            </NavLink>
-                            <small>Creative Leader</small>
-                            <p>Adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+                @if (members is null)
+                {
+                    <div class="col-12">Loading...</div>
+                }
+                else
+                {
+                    @foreach (var member in members)
+                    {
+                        <div class="col-md-6 d-flex justify-content-center">
+                            <div class="team-member">
+                                <img src="@member.MemberImage" alt="@member.MemberFullName" />
+                                <div class="team-info">
+                                    <NavLink href="@($"/Team/Detail/{member.MemberID}")">
+                                        <h5>@member.MemberFullName</h5>
+                                    </NavLink>
+                                    <small>@member.MemberTitle</small>
+                                    <p>@member.MemberDescription</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Member 2 -->
-                <div class="col-md-6 d-flex justify-content-center">
-                    <div class="team-member">
-                        <img src="images/img_1.png" alt="Alex Greenfield">
-                        <div class="team-info">
-                            <h5>ALEX GREENFIELD</h5>
-                            <small>programming guru</small>
-                            <p>Adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Member 3 -->
-                <div class="col-md-6 d-flex justify-content-center">
-                    <div class="team-member">
-                        <img src="https://images.unsplash.com/photo-1592520113018-180c8bc831c9?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Linda Larson">
-                        <div class="team-info">
-                            <h5>LINDA LARSON</h5>
-                            <small>manager</small>
-                            <p>Adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Member 4 -->
-                <div class="col-md-6 d-flex justify-content-center">
-                    <div class="team-member">
-                        <img src="https://images.unsplash.com/photo-1666867540898-aaa1993ffabc?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Ann Richmond">
-                        <div class="team-info">
-                            <h5>ANN RICHMOND</h5>
-                            <small>sales manager</small>
-                            <p>Adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
-                        </div>
-                    </div>
-                </div>
+                    }
+                }
             </div>
         </div>
     </section>
 </div>
 
 @code {
+    private List<TeamMember>? members;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMembersAsync();
+    }
+
+    private async Task LoadMembersAsync()
+    {
+        
+        members = new List<TeamMember>
+                {
+                    new TeamMember
+                    {
+                        MemberID = 1,
+                        MemberFullName = "AGBEDEKPUI Délali Abel",
+                        MemberTitle = "Guerrier du Vibranium",
+                        MemberDescription = "Défenseur infatigable du progrès et de la technologie africaine",
+                        MemberPhone = "(+227) 93 06 06 93",
+                        MemberEmail = "abdallyacali@gmail.com",
+                        MemberAddress = "Aeroport - Niamey, Niger",
+                        MemberImage = "/images/img_a1.png"
+                    },
+                    new TeamMember
+                    {
+                        MemberID = 2,
+                        MemberFullName = "YACOUBA Abdallah",
+                        MemberTitle = "Sentinelle du Trône",
+                        MemberDescription = "Gardien de la sagesse et de la stabilité du groupe",
+                        MemberPhone = "(+227) 90 06 04 59",
+                        MemberEmail = "delaliabel@gmail.com",
+                        MemberAddress = "Poudrière - Niamey, Niger",
+                        MemberImage = "/images/img_a2.png"
+                    }
+                };
+
+    }
+
 
 }

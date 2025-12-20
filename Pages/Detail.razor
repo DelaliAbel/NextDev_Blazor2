@@ -1,31 +1,73 @@
-﻿@page "/Team/Detail"
-
-<section class="profile-section">
-    <!-- IMAGE -->
-    <div class="profile-image">
-        <img src="/Images/img_1.png">
-    </div>
-
-    <!-- INFO -->
-    <div class="profile-info">
-        <h1>Salut, Je suis JEFFREY.</h1>
-        <h2>Creative Leader</h2>
-        <p>
-            Adipiscing elit, sed do eiusmod tempor incididunt ut labore.
-        </p>
-
-        <ul>
-            <li><i class="fas fa-phone"></i> Phone: <a href="tel:+22700000000">+227 00 00 00 00</a></li>
-            <li><i class="fas fa-envelope"></i> Email: <a href="mailto:jeffreybrown.com">info@jeffreybrown.com</a></li>
-            <li><i class="fas fa-map-marker-alt"></i> Boukoki - Niamey, Niger</li>
-        </ul>
-
-        <NavLink class="btn-back text-center" href="team">RETOUR</NavLink>
-    </div>
-</section>
+﻿@page "/Team/Detail/{MemberID:int}"
+@using NextDev_Blazor2.Models
 
 
+@if (member is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <section class="profile-section">
+        <!-- IMAGE -->
+        <div class="profile-image">
+            <img src="@member.MemberImage" alt="@member.MemberFullName" />
+        </div>
+
+        <!-- INFO -->
+        <div class="profile-info">
+            <h1>@member.MemberFullName</h1>
+            <h2>@member.MemberTitle</h2>
+            <p>@member.MemberDescription</p>
+
+            <ul>
+                <li><i class="fas fa-phone"></i> Phone: <a href="tel:@member.MemberPhone">@member.MemberPhone</a></li>
+                <li><i class="fas fa-envelope"></i> Email: <a href="mailto:@member.MemberEmail">@member.MemberEmail</a></li>
+                <li><i class="fas fa-map-marker-alt"></i> @member.MemberAddress</li>
+            </ul>
+
+            <NavLink class="btn-back text-center" href="team">RETOUR</NavLink>
+        </div>
+    </section>
+}
 
 @code {
+    [Parameter]
+    public int MemberID { get; set; }
+
+    private TeamMember? member;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var TeamMembers = new List<TeamMember>
+                {
+                    new TeamMember
+                    {
+                        MemberID = 1,
+                        MemberFullName = "AGBEDEKPUI Délali Abel",
+                        MemberTitle = "Guerrier du Vibranium",
+                        MemberDescription = "Défenseur infatigable du progrès et de la technologie africaine",
+                        MemberPhone = "+227 00 00 00 00",
+                        MemberEmail = "info@abe.com",
+                        MemberAddress = "Boukoki - Niamey, Niger",
+                        MemberImage = "/images/img_a1.png"
+                    },
+                    new TeamMember
+                    {
+                        MemberID = 2,
+                        MemberFullName = "YACOUBA Abdallah",
+                        MemberTitle = "Sentinelle du Trône",
+                        MemberDescription = "Gardien de la sagesse et de la stabilité du groupe",
+                        MemberPhone = "555-5678",
+                        MemberEmail = "info@alexgreenfield.com",
+                        MemberAddress = "Soni - Niamey, Niger",
+                        MemberImage = "/images/img_a2.png"
+                    }
+                };
+
+
+        member = TeamMembers.FirstOrDefault(m => m.MemberID == MemberID);
+    }
+
 
 }
